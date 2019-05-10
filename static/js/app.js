@@ -2,22 +2,21 @@
 var tableData = data;
 
 // Declare Variables
-var selectFilterDate= d3.select("#datetime");
-var selectFilterShape=d3.select("#shape");
-var selectFilterCity=d3.select("#city");
-var selectFilterState=d3.select("#state");
-var selectFilterCountry=d3.select("#country");
+var selectFilterSymbol= d3.select("#symbol");
+var selectFilterSector=d3.select("#sector");
+var selectFilterPosition=d3.select("#position");
+var selectFilterRating=d3.select("#rating");
+var selectFilterAction=d3.select("#action");
 var selectButton=d3.select("#filter-btn");
-
+var resetButton = d3.select("reset-btn");
 var tbody=d3.select("tbody");
-var columns=["datetime", "city", "state", "country", "shape","durationMinutes", "comments"]
+var columns=["Symbol", "Name", "Sector", "Price", "Price/Earnings(trades at X times the earnings)","52 Week High", "52 Week Low", "52 Week Avg", "P/AA %","52-Week P/AA % Position", "Rating","Action"]
 
 //Table Data Fill
 var fill = (inputData)=> {
-inputData.forEach (sighting =>{
+inputData.forEach (stock =>{
     var row =tbody.append("tr");
-    columns.forEach(column=>row.append("td").text(sighting[column]))
-
+    columns.forEach(column=>row.append("td").text(stock[column]))
 });
 }
 fill(tableData);
@@ -25,37 +24,42 @@ fill(tableData);
 //Perform filter
 selectButton.on("click",() =>{
 d3.event.preventDefault();
-var enterDate= selectFilterDate.property("value").trim();
-var enterShape =selectFilterShape.property("value").toLowerCase().trim();
-var enterCity =selectFilterCity.property("value").toLowerCase().trim();
-var enterState =selectFilterState.property("value").toLowerCase().trim();
-var enterCountry =selectFilterCountry.property("value").toLowerCase().trim();
-
-var filterDate=tableData.filter(tableData=> tableData.datetime===enterDate);
-console.log(filterDate)
-var filterShape=tableData.filter(tableData=> tableData.shape===enterShape);
-console.log(filterShape)
-var filterCity=tableData.filter(tableData=> tableData.city===enterCity);
-console.log(filterCity)
-var filterState=tableData.filter(tableData=> tableData.state===enterState);
-console.log(filterState)
-var filterCountry=tableData.filter(tableData=> tableData.country===enterCountry);
-console.log(filterCountry)
-var filterAll=tableData.filter(tableData=> tableData.datetime==enterDate && tableData.shape===enterShape && tableData.city===enterCity && tableData.state===enterState && tableData.country===enterCountry);
+var enterSymbol= selectFilterSymbol.property("value").toUpperCase().trim();
+var enterSector =selectFilterSector.property("value").trim();
+var enterPosition =selectFilterPosition.property("value").toUpperCase().trim();
+var enterRating =selectFilterRating.property("value").toUpperCase().trim();
+var enterAction =selectFilterAction.property("value").toUpperCase().trim();
+//Collect string value from a feedback response
+var filterSymbol=tableData.filter(tableData=> tableData.symbol===enterSymbol);
+console.log(filterSymbol)
+var filterSector=tableData.filter(tableData=> tableData.sector===enterSector);
+console.log(filterSector)
+var filterPosition=tableData.filter(tableData=> tableData.position===enterPosition);
+console.log(filterPosition)
+var filterRating=tableData.filter(tableData=> tableData.rating===enterRating);
+console.log(filterRating)
+var filterAction=tableData.filter(tableData=> tableData.action===enterAction);
+console.log(filterAction)
+var filterAll=tableData.filter(tableData=> tableData.symbol==enterSymbol && tableData.sector===enterSector && tableData.position===enterPosition && tableData.rating===enterRating && tableData.action===enterAction);
 console.log(filterAll)
 
 tbody.html("");
-
-let feedback = { filterDate, filterShape, filterCity, filterState, filterCountry, filterAll}
+//Loop thru a feedback response and perform Table Filter
+let feedback = {filterSymbol, filterSector, filterPosition, filterRating, filterAction, filterAll}
 if (feedback.filterAll.length !==0) { 
     fill(filterAll);
 }
-    else if(feedback.filterAll.length===0 &&((feedback.filterDate.length !==0  || feedback.filterShape.length !==0 || feedback.filterCity.length !==0 || feedback.filterState.length !==0 || feedback.filterCountry.length !==0))){
-    fill(filterDate) || fill(filterShape) || fill(filterCity) || fill(filterState) || fill(filterCountry);
+    else if(feedback.filterAll.length===0 &&((feedback.filterSymbol.length !==0  || feedback.filterSector.length !==0 || feedback.filterPosition.length !==0 || feedback.filterRating.length !==0 || feedback.filterAction.length !==0))){
+    fill(filterSymbol) || fill(filterSector) || fill(filterPosition) || fill(filterRating) || fill(filterAction);
     }
     else{
         tbody.append("tr").append("td").text("Results are not in range!");
 }
+})
+resetButton.on("click", () =>{
+tbodyy.html("");
+populate(tableData)
+console.log("Reset Table")
 })
 
 

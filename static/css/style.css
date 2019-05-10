@@ -44,7 +44,7 @@ body {
 }
 
 /* This CSS styles the ufo icon in the navbar */
-.nav-ufo {
+.nav-stock {
   position: absolute;
   bottom: 5px;
   left: 150px;
@@ -53,7 +53,7 @@ body {
 }
 
 /* Adding styles to the aside and filter form */
-.ufo-form {
+.stock-form {
   margin-top: 50px;
 }
 
@@ -98,7 +98,7 @@ select {
   padding: 20px;
   margin: 0;
   background: black;
-  background-image: url("../images/nasa.jpg");
+  background-image: url("../images/stock.jpg");
   background-attachment: fixed;
   background-position: bottom center;
   background-size: cover;
@@ -107,12 +107,14 @@ select {
 .hero h1 {
   margin-top: 200px;
   font-size: 0.1rem;
+  color: black;
   animation: title 1.2s forwards linear;
 }
 
 .hero p {
   font-size: 2rem;
   opacity: 0;
+  color: rgb(216, 31, 31);
   animation: subtitle 1.2s forwards linear;
   animation-delay: 1.2s;
 }
